@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  IgnorableNamespaces="uap10 desktop4 rescap">
+
+  <Identity Name="GpuLauncher.ContextMenu" Publisher="CN=GpuLauncherDev" Version="1.0.0.0" ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>GPU Launcher Context Menu</DisplayName>
+    <PublisherDisplayName>GpuLauncher</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <uap10:AllowExternalContent>true</uap10:AllowExternalContent>
+  </Properties>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+  <Applications>
+    <Application Id="GpuContextMenuApp" Executable="GpuContextMenuHandler.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
+      <uap:VisualElements
+        AppListEntry="none"
+        DisplayName="GPU Launcher Context Menu"
+        Description="Adds 'Run with NVIDIA GPU' to the Explorer context menu"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png" />
+      <Extensions>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="GpuContextMenuHandler.exe" Arguments="-Embedding" DisplayName="GpuContextMenuHandler">
+              <com:Class Id="3ef04f46-10ca-46c7-9115-f82e19572bd6" DisplayName="Run with NVIDIA GPU" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop4:ItemType Type=".exe">
+              <desktop4:Verb Id="RunWithNvidiaGpu" Clsid="3ef04f46-10ca-46c7-9115-f82e19572bd6" />
+            </desktop4:ItemType>
+            <desktop4:ItemType Type=".lnk">
+              <desktop4:Verb Id="RunWithNvidiaGpuLnk" Clsid="3ef04f46-10ca-46c7-9115-f82e19572bd6" />
+            </desktop4:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>
